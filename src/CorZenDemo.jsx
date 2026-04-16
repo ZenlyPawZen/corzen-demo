@@ -223,8 +223,10 @@ const CorZenDemo = () => {
         <span className="font-bold text-slate-900 text-sm tracking-tight">Agent Demo to Build Case Studies</span>
       </div>
 
-      {/* Main Stage */}
-      <div className="relative aspect-video bg-slate-100 overflow-hidden">
+      {/* Outer background layer — #DBEAFE with 70px padding on all sides */}
+      <div style={{ background: '#DBEAFE', padding: '70px' }}>
+        {/* Inner wrapper — sized to the image; callouts position relative to this */}
+        <div style={{ position: 'relative' }}>
         <AnimatePresence mode="wait">
           <motion.img
             key={`img-${currentStep}`}
@@ -234,7 +236,7 @@ const CorZenDemo = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="w-full h-full object-cover object-top"
+            style={{ width: '100%', height: 'auto', display: 'block' }}
           />
         </AnimatePresence>
 
@@ -283,7 +285,8 @@ const CorZenDemo = () => {
             </button>
           </motion.div>
         )}
-      </div>
+        </div> {/* end inner image wrapper */}
+      </div> {/* end outer background layer */}
 
     </div>
   );
