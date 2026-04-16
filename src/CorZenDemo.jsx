@@ -8,7 +8,7 @@ const steps = [
     altText: 'CorZen weekly focus kanban board showing Build Case Study task in the In Progress column',
     title: 'Step 1',
     description: 'Your weekly focus board surfaces the right task — Build Case Study is ready to run.',
-    hotspot: { top: '52%', left: '62%' },
+    hotspot: { top: '52%', left: '62%', align: 'center' },
   },
   {
     slug: 'agents/build-case-study/detail',
@@ -16,7 +16,7 @@ const steps = [
     altText: 'Build Case Study task detail modal showing description and Run agent button',
     title: 'Step 2',
     description: 'Open the task to review the brief, then click Run agent to hand it off to AI.',
-    hotspot: { top: '59%', left: '80%' },
+    hotspot: { top: '57%', left: '78%', align: 'right' },
   },
   {
     slug: 'agents/build-case-study/running',
@@ -24,7 +24,7 @@ const steps = [
     altText: 'Build Case Study agent running autonomously with progress bar and working status indicator',
     title: 'Step 3',
     description: 'The agent works autonomously — no prompting required. Watch the progress in real time.',
-    hotspot: { top: '70%', left: '50%' },
+    hotspot: { top: '65%', left: '50%', align: 'center' },
   },
   {
     slug: 'agents/build-case-study/output',
@@ -36,16 +36,110 @@ const steps = [
   },
 ];
 
+const Callout = ({ step, onClick }) => {
+  if (!step.hotspot) return null;
+
+  const xOffset = step.hotspot.align === 'right' ? '-82%' : '-50%';
+
+  return (
+    <motion.button
+      key={step.slug}
+      onClick={onClick}
+      style={{
+        position: 'absolute',
+        top: step.hotspot.top,
+        left: step.hotspot.left,
+        transform: `translate(${xOffset}, -100%)`,
+        marginTop: '-14px',
+        cursor: 'pointer',
+        background: 'none',
+        border: 'none',
+        padding: 0,
+        textAlign: 'left',
+      }}
+      initial={{ opacity: 0, y: 6 }}
+      animate={{
+        opacity: 1,
+        y: [0, -5, 0],
+      }}
+      transition={{
+        opacity: { duration: 0.3 },
+        y: { duration: 2.8, repeat: Infinity, ease: 'easeInOut' },
+      }}
+      aria-label="Click to advance to the next step"
+    >
+      {/* Callout card */}
+      <motion.div
+        animate={{
+          boxShadow: [
+            '0 4px 16px rgba(59,130,246,0.12), 0 1px 4px rgba(0,0,0,0.06)',
+            '0 8px 28px rgba(59,130,246,0.28), 0 2px 8px rgba(0,0,0,0.08)',
+            '0 4px 16px rgba(59,130,246,0.12), 0 1px 4px rgba(0,0,0,0.06)',
+          ],
+        }}
+        transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
+        style={{
+          background: 'white',
+          borderRadius: '12px',
+          border: '1px solid #e2e8f0',
+          padding: '12px 16px',
+          width: '220px',
+        }}
+      >
+        <p style={{ fontSize: '12px', lineHeight: '1.5', color: '#334155', margin: 0 }}>
+          {step.description}
+        </p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginTop: '8px' }}>
+          <svg width="6" height="6" viewBox="0 0 6 6" fill="none">
+            <circle cx="3" cy="3" r="3" fill="#3b82f6" />
+          </svg>
+          <span style={{ fontSize: '11px', fontWeight: 600, color: '#3b82f6' }}>
+            Click to continue
+          </span>
+          <span style={{ fontSize: '11px', color: '#3b82f6' }}>→</span>
+        </div>
+      </motion.div>
+
+      {/* Arrow tip pointing down */}
+      <div
+        style={{
+          width: 0,
+          height: 0,
+          borderLeft: '7px solid transparent',
+          borderRight: '7px solid transparent',
+          borderTop: '7px solid white',
+          margin: '0 auto',
+          position: 'relative',
+          zIndex: 1,
+          filter: 'drop-shadow(0 1px 0 #e2e8f0)',
+          marginLeft: step.hotspot.align === 'right' ? 'calc(82% - 7px)' : 'auto',
+        }}
+      />
+
+      {/* Anchor dot at hotspot */}
+      <motion.div
+        animate={{ scale: [1, 1.25, 1], opacity: [0.7, 1, 0.7] }}
+        transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
+        style={{
+          width: '10px',
+          height: '10px',
+          borderRadius: '50%',
+          background: '#3b82f6',
+          boxShadow: '0 0 0 3px rgba(59,130,246,0.25)',
+          margin: '0 auto',
+          marginLeft: step.hotspot.align === 'right' ? 'calc(82% - 5px)' : 'auto',
+        }}
+      />
+    </motion.button>
+  );
+};
+
 const CorZenDemo = () => {
   const [currentStep, setCurrentStep] = useState(0);
 
   const nextStep = () => {
-    if (currentStep < steps.length - 1) {
-      setCurrentStep((prev) => prev + 1);
-    }
+    if (currentStep < steps.length - 1) setCurrentStep((p) => p + 1);
   };
-
-  const goToStep = (index) => setCurrentStep(index);
 
   const step = steps[currentStep];
   const isLast = currentStep === steps.length - 1;
@@ -79,20 +173,10 @@ const CorZenDemo = () => {
           />
         </AnimatePresence>
 
-        {/* Hotspot */}
-        {step.hotspot && (
-          <button
-            onClick={nextStep}
-            style={{ top: step.hotspot.top, left: step.hotspot.left }}
-            className="absolute w-12 h-12 -translate-x-1/2 -translate-y-1/2 rounded-full cursor-pointer focus:outline-none"
-            aria-label="Click to advance to the next step"
-          >
-            <span className="absolute inset-0 rounded-full bg-blue-500/20 border-2 border-blue-500 animate-ping" />
-            <span className="absolute inset-2 rounded-full bg-blue-500/40" />
-          </button>
-        )}
+        <AnimatePresence mode="wait">
+          <Callout key={`callout-${currentStep}`} step={step} onClick={nextStep} />
+        </AnimatePresence>
 
-        {/* Last step — restart prompt */}
         {isLast && (
           <motion.button
             initial={{ opacity: 0, y: 8 }}
@@ -113,12 +197,11 @@ const CorZenDemo = () => {
           <p className="text-sm text-slate-500 mt-0.5 leading-snug">{step.description}</p>
         </div>
 
-        {/* Step dots */}
         <div className="flex items-center gap-2 shrink-0">
           {steps.map((_, i) => (
             <button
               key={i}
-              onClick={() => goToStep(i)}
+              onClick={() => setCurrentStep(i)}
               aria-label={`Go to step ${i + 1}`}
               className={`rounded-full transition-all duration-200 focus:outline-none ${
                 i === currentStep
