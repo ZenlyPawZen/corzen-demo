@@ -16,7 +16,7 @@ const steps = [
     image: '/images/step1.png',
     altText: 'CorZen weekly focus kanban board showing Build Case Study task in the In Progress column',
     title: 'Step 1',
-    description: 'Your weekly focus board surfaces the right task — Build Case Study is ready to run.',
+    description: 'The wrench icon indicates that this task can be completed for you. Click anywhere on the card to see more details.',
     hotspot: { top: '52%', left: '62%', align: 'center' },
   },
   {
@@ -24,7 +24,7 @@ const steps = [
     image: '/images/step2.png',
     altText: 'Build Case Study task detail modal showing description and Run agent button',
     title: 'Step 2',
-    description: 'Open the task to review the brief, then click Run agent to hand it off to AI.',
+    description: "The description provides instructions if you wish to complete this task yourself. Click 'Run agent' if you prefer to have this task completed for you.",
     hotspot: { top: '13%', left: '35%', align: 'center' },
   },
   {
@@ -32,7 +32,7 @@ const steps = [
     image: '/images/step3.png',
     altText: 'Build Case Study agent running autonomously with progress bar and working status indicator',
     title: 'Step 3',
-    description: 'The agent works autonomously — no prompting required. Watch the progress in real time.',
+    description: "The agent gathers information that you provided during intake and generates the case study. You no longer need to find 'the perfect prompt.'",
     hotspot: { top: '65%', left: '50%', align: 'center' },
   },
   {
@@ -40,8 +40,8 @@ const steps = [
     image: '/images/step4.png',
     altText: 'Completed case study output with two-liner summary, social media story version, and full situation summary',
     title: 'Step 4',
-    description: 'Done. Your case study ships in three formats: two-liner, story version, and full write-up.',
-    hotspot: null,
+    description: 'A complete case study in short-form and long-form is now ready for use on websites, in customer presentations, videos, and anywhere you want to include social proof.\n\nYour case study is saved in your project until you delete the project.',
+    hotspot: { top: '30%', left: '20%', align: 'center' },
   },
 ];
 
@@ -141,7 +141,7 @@ const Callout = ({ step, onBack, onNext, onRestart, isFirst, isLast }) => {
           width: '260px', pointerEvents: 'auto',
         }}
       >
-        <p style={{ fontSize: '14px', lineHeight: '1.5', color: '#0f172a', margin: 0 }}>
+        <p style={{ fontSize: '14px', lineHeight: '1.5', color: '#0f172a', margin: 0, whiteSpace: 'pre-line' }}>
           {step.description}
         </p>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '10px', paddingTop: '10px', borderTop: '1px solid #93c5fd' }}>
@@ -255,8 +255,8 @@ const CorZenDemo = () => {
           )}
         </AnimatePresence>
 
-        {/* Last step nav */}
-        {isLast && (
+        {/* Last step nav — only when last step has no hotspot callout */}
+        {isLast && !step.hotspot && (
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
