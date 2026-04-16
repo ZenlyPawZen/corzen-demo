@@ -24,8 +24,8 @@ const steps = [
     image: '/images/step2.png',
     altText: 'Build Case Study task detail modal showing description and Run agent button',
     title: 'Step 2',
-    description: "The description provides instructions if you wish to complete this task yourself. Click 'Run agent' if you prefer to have this task completed for you.",
-    hotspot: { top: '13%', left: '38%', align: 'center' },
+    description: "The description provides instructions if you wish to complete this task yourself.\n\nClick 'Run agent' if you prefer to have this task completed for you.",
+    hotspot: { top: '13%', left: '38%', align: 'center', cardWidth: '312px' },
   },
   {
     slug: 'agents/build-case-study/running',
@@ -41,7 +41,7 @@ const steps = [
     altText: 'Completed case study output with two-liner summary, social media story version, and full situation summary',
     title: 'Step 4',
     description: 'A complete case study in short-form and long-form is now ready for use on websites, in customer presentations, videos, and anywhere you want to include social proof.\n\nYour case study is saved in your project until you delete the project.',
-    hotspot: { top: '9%', left: '39%', align: 'center', cardWidth: '390px' },
+    hotspot: { top: '14%', left: '39%', align: 'center', cardWidth: '390px' },
   },
 ];
 
