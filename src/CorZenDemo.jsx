@@ -25,7 +25,7 @@ const steps = [
     altText: 'Build Case Study task detail modal showing description and Run agent button',
     title: 'Step 2',
     description: 'Open the task to review the brief, then click Run agent to hand it off to AI.',
-    hotspot: { top: '33%', left: '45%', align: 'center' },
+    hotspot: { top: '13%', left: '35%', align: 'center' },
   },
   {
     slug: 'agents/build-case-study/running',
