@@ -217,16 +217,15 @@ const CorZenDemo = () => {
   const isLast = currentStep === steps.length - 1;
 
   return (
+    <div style={{ background: '#DBEAFE', padding: '70px' }}>
     <div className="rounded-xl bg-white overflow-hidden max-w-4xl mx-auto font-sans" style={{ border: '3px solid #0f172a', boxShadow: '0 8px 32px rgba(0,0,0,0.18)' }}>
       {/* Header */}
       <div className="bg-slate-50 border-b border-slate-200 p-3 flex items-center justify-center">
         <span className="font-bold text-slate-900 text-sm tracking-tight">Agent Demo to Build Case Studies</span>
       </div>
 
-      {/* Outer background layer — #DBEAFE with 70px padding on all sides */}
-      <div style={{ background: '#DBEAFE', padding: '70px' }}>
-        {/* Inner wrapper — sized to the image; callouts position relative to this */}
-        <div style={{ position: 'relative' }}>
+      {/* Main Stage */}
+      <div className="relative aspect-video overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.img
             key={`img-${currentStep}`}
@@ -236,7 +235,7 @@ const CorZenDemo = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            style={{ width: '100%', height: 'auto', display: 'block' }}
+            className="w-full h-full object-cover object-top"
           />
         </AnimatePresence>
 
@@ -285,9 +284,9 @@ const CorZenDemo = () => {
             </button>
           </motion.div>
         )}
-        </div> {/* end inner image wrapper */}
-      </div> {/* end outer background layer */}
+      </div> {/* end main stage */}
 
+    </div>
     </div>
   );
 };
