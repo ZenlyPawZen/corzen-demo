@@ -36,37 +36,28 @@ const steps = [
   },
 ];
 
-const Callout = ({ step, onClick }) => {
+const Callout = ({ step }) => {
   if (!step.hotspot) return null;
 
   const xOffset = step.hotspot.align === 'right' ? '-82%' : '-50%';
 
   return (
-    <motion.button
+    <motion.div
       key={step.slug}
-      onClick={onClick}
       style={{
         position: 'absolute',
         top: step.hotspot.top,
         left: step.hotspot.left,
         transform: `translate(${xOffset}, -100%)`,
         marginTop: '-14px',
-        cursor: 'pointer',
-        background: 'none',
-        border: 'none',
-        padding: 0,
-        textAlign: 'left',
+        pointerEvents: 'none',
       }}
       initial={{ opacity: 0, y: 6 }}
-      animate={{
-        opacity: 1,
-        y: [0, -5, 0],
-      }}
+      animate={{ opacity: 1, y: [0, -5, 0] }}
       transition={{
         opacity: { duration: 0.3 },
         y: { duration: 2.8, repeat: Infinity, ease: 'easeInOut' },
       }}
-      aria-label="Click to advance to the next step"
     >
       {/* Callout card */}
       <motion.div
@@ -89,15 +80,6 @@ const Callout = ({ step, onClick }) => {
         <p style={{ fontSize: '12px', lineHeight: '1.5', color: '#334155', margin: 0 }}>
           {step.description}
         </p>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginTop: '8px' }}>
-          <svg width="6" height="6" viewBox="0 0 6 6" fill="none">
-            <circle cx="3" cy="3" r="3" fill="#3b82f6" />
-          </svg>
-          <span style={{ fontSize: '11px', fontWeight: 600, color: '#3b82f6' }}>
-            Click to continue
-          </span>
-          <span style={{ fontSize: '11px', color: '#3b82f6' }}>→</span>
-        </div>
       </motion.div>
 
       {/* Arrow tip pointing down */}
@@ -116,7 +98,7 @@ const Callout = ({ step, onClick }) => {
         }}
       />
 
-      {/* Anchor dot at hotspot */}
+      {/* Anchor dot */}
       <motion.div
         animate={{ scale: [1, 1.25, 1], opacity: [0.7, 1, 0.7] }}
         transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
@@ -130,18 +112,31 @@ const Callout = ({ step, onClick }) => {
           marginLeft: step.hotspot.align === 'right' ? 'calc(82% - 5px)' : 'auto',
         }}
       />
-    </motion.button>
+    </motion.div>
   );
 };
+
+const ChevronLeft = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <path d="M10 12L6 8l4-4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const ChevronRight = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
 
 const CorZenDemo = () => {
   const [currentStep, setCurrentStep] = useState(0);
 
-  const nextStep = () => {
-    if (currentStep < steps.length - 1) setCurrentStep((p) => p + 1);
-  };
+  const goBack = () => setCurrentStep((p) => Math.max(0, p - 1));
+  const goNext = () => setCurrentStep((p) => Math.min(steps.length - 1, p + 1));
+  const restart = () => setCurrentStep(0);
 
   const step = steps[currentStep];
+  const isFirst = currentStep === 0;
   const isLast = currentStep === steps.length - 1;
 
   return (
@@ -174,46 +169,71 @@ const CorZenDemo = () => {
         </AnimatePresence>
 
         <AnimatePresence mode="wait">
-          <Callout key={`callout-${currentStep}`} step={step} onClick={nextStep} />
+          <Callout key={`callout-${currentStep}`} step={step} />
         </AnimatePresence>
-
-        {isLast && (
-          <motion.button
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            onClick={() => setCurrentStep(0)}
-            className="absolute bottom-4 right-4 bg-slate-900/80 hover:bg-slate-900 text-white text-xs font-medium px-3 py-1.5 rounded-lg backdrop-blur-sm transition-colors"
-          >
-            Restart demo
-          </motion.button>
-        )}
       </div>
 
       {/* Footer */}
-      <div className="p-5 bg-white flex items-center justify-between gap-4 border-t border-slate-100">
+      <div className="px-5 py-4 bg-white flex items-center justify-between gap-4 border-t border-slate-100">
+        {/* Step info */}
         <div className="flex-1 min-w-0">
           <h3 className="font-bold text-slate-900 text-sm">{step.title}</h3>
           <p className="text-sm text-slate-500 mt-0.5 leading-snug">{step.description}</p>
         </div>
 
-        <div className="flex items-center gap-2 shrink-0">
-          {steps.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrentStep(i)}
-              aria-label={`Go to step ${i + 1}`}
-              className={`rounded-full transition-all duration-200 focus:outline-none ${
-                i === currentStep
-                  ? 'w-5 h-2 bg-blue-500'
-                  : 'w-2 h-2 bg-slate-300 hover:bg-slate-400'
-              }`}
-            />
-          ))}
-        </div>
+        {/* Navigation */}
+        <div className="flex items-center gap-3 shrink-0">
+          {/* Step dots */}
+          <div className="flex items-center gap-1.5">
+            {steps.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentStep(i)}
+                aria-label={`Go to step ${i + 1}`}
+                className={`rounded-full transition-all duration-200 focus:outline-none ${
+                  i === currentStep
+                    ? 'w-5 h-2 bg-blue-500'
+                    : 'w-2 h-2 bg-slate-300 hover:bg-slate-400'
+                }`}
+              />
+            ))}
+          </div>
 
-        <div className="text-xs font-mono text-slate-400 shrink-0">
-          {currentStep + 1} / {steps.length}
+          {/* Back / Next buttons */}
+          <div className="flex items-center gap-2 ml-2">
+            <button
+              onClick={goBack}
+              disabled={isFirst}
+              aria-label="Back"
+              className={`flex items-center gap-1 px-3 py-1.5 rounded-lg border text-sm font-medium transition-colors focus:outline-none ${
+                isFirst
+                  ? 'border-slate-100 text-slate-300 cursor-not-allowed'
+                  : 'border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-slate-300'
+              }`}
+            >
+              <ChevronLeft />
+              Back
+            </button>
+
+            {isLast ? (
+              <button
+                onClick={restart}
+                aria-label="Restart demo"
+                className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-900 text-white text-sm font-medium hover:bg-slate-700 transition-colors focus:outline-none"
+              >
+                Restart
+              </button>
+            ) : (
+              <button
+                onClick={goNext}
+                aria-label="Next"
+                className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-blue-500 text-white text-sm font-medium hover:bg-blue-600 transition-colors focus:outline-none"
+              >
+                Next
+                <ChevronRight />
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>
