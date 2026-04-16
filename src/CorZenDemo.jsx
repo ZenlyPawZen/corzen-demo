@@ -76,7 +76,7 @@ const IntroCallout = ({ step, onNext }) => (
         background: '#DBEAFE',
         borderRadius: '16px',
         border: '1px solid #93c5fd',
-        padding: '28px 20%',
+        padding: '50px',
         width: '360px',
         textAlign: 'center',
         boxShadow: '0 8px 32px rgba(147,197,253,0.7), 0 2px 8px rgba(0,0,0,0.08)',
@@ -137,7 +137,7 @@ const Callout = ({ step, onBack, onNext, onRestart, isFirst, isLast }) => {
         transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
         style={{
           background: '#DBEAFE', borderRadius: '12px',
-          border: '1px solid #93c5fd', padding: '16px 20%',
+          border: '1px solid #93c5fd', padding: '50px',
           width: '260px', pointerEvents: 'auto',
         }}
       >
