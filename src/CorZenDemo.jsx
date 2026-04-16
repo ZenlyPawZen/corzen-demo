@@ -5,6 +5,15 @@ const steps = [
   {
     slug: 'agents/build-case-study',
     image: '/images/step1.png',
+    altText: 'Introduction to the Build Case Study feature in CorZen',
+    title: 'Build Your Case Study',
+    description: 'Credibility comes from social proof. Turn client wins into compelling case studies that build trust and close deals.',
+    intro: true,
+    hotspot: null,
+  },
+  {
+    slug: 'agents/build-case-study',
+    image: '/images/step1.png',
     altText: 'CorZen weekly focus kanban board showing Build Case Study task in the In Progress column',
     title: 'Step 1',
     description: 'Your weekly focus board surfaces the right task — Build Case Study is ready to run.',
@@ -36,6 +45,63 @@ const steps = [
   },
 ];
 
+const ChevronLeft = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <path d="M10 12L6 8l4-4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const ChevronRight = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const IntroCallout = ({ step, onNext }) => (
+  <>
+    {/* Dim overlay */}
+    <div style={{
+      position: 'absolute', inset: 0,
+      background: 'rgba(15, 23, 42, 0.45)',
+    }} />
+    {/* Centered card */}
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.3, ease: 'easeOut' }}
+      style={{
+        position: 'absolute', top: '50%', left: '50%',
+        transform: 'translate(-50%, -50%)',
+        background: 'white',
+        borderRadius: '16px',
+        padding: '28px 32px',
+        width: '320px',
+        textAlign: 'center',
+        boxShadow: '0 24px 48px rgba(0,0,0,0.2)',
+      }}
+    >
+      <h2 style={{ fontSize: '18px', fontWeight: 700, color: '#0f172a', margin: '0 0 10px' }}>
+        {step.title}
+      </h2>
+      <p style={{ fontSize: '13px', lineHeight: '1.6', color: '#475569', margin: '0 0 20px' }}>
+        {step.description}
+      </p>
+      <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: '16px' }}>
+        <button
+          onClick={onNext}
+          style={{
+            fontSize: '13px', fontWeight: 600, color: '#3b82f6',
+            background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+          }}
+        >
+          Start demo →
+        </button>
+      </div>
+    </motion.div>
+  </>
+);
+
 const Callout = ({ step, onBack, onNext, onRestart, isFirst, isLast }) => {
   if (!step.hotspot) return null;
 
@@ -59,7 +125,6 @@ const Callout = ({ step, onBack, onNext, onRestart, isFirst, isLast }) => {
         y: { duration: 2.8, repeat: Infinity, ease: 'easeInOut' },
       }}
     >
-      {/* Callout card */}
       <motion.div
         animate={{
           boxShadow: [
@@ -70,18 +135,14 @@ const Callout = ({ step, onBack, onNext, onRestart, isFirst, isLast }) => {
         }}
         transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
         style={{
-          background: 'white',
-          borderRadius: '12px',
-          border: '1px solid #e2e8f0',
-          padding: '12px 16px',
-          width: '220px',
-          pointerEvents: 'auto',
+          background: 'white', borderRadius: '12px',
+          border: '1px solid #e2e8f0', padding: '12px 16px',
+          width: '220px', pointerEvents: 'auto',
         }}
       >
         <p style={{ fontSize: '12px', lineHeight: '1.5', color: '#334155', margin: 0 }}>
           {step.description}
         </p>
-        {/* Back / Next inside callout */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '10px', paddingTop: '10px', borderTop: '1px solid #f1f5f9' }}>
           <button
             onClick={onBack}
@@ -90,7 +151,8 @@ const Callout = ({ step, onBack, onNext, onRestart, isFirst, isLast }) => {
               display: 'flex', alignItems: 'center', gap: '3px',
               fontSize: '11px', fontWeight: 600,
               color: isFirst ? '#cbd5e1' : '#64748b',
-              background: 'none', border: 'none', padding: 0, cursor: isFirst ? 'default' : 'pointer',
+              background: 'none', border: 'none', padding: 0,
+              cursor: isFirst ? 'default' : 'pointer',
             }}
           >
             <ChevronLeft /> Back
@@ -98,11 +160,7 @@ const Callout = ({ step, onBack, onNext, onRestart, isFirst, isLast }) => {
           {isLast ? (
             <button
               onClick={onRestart}
-              style={{
-                display: 'flex', alignItems: 'center', gap: '3px',
-                fontSize: '11px', fontWeight: 600,
-                color: '#0f172a', background: 'none', border: 'none', padding: 0, cursor: 'pointer',
-              }}
+              style={{ fontSize: '11px', fontWeight: 600, color: '#0f172a', background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
             >
               Restart
             </button>
@@ -111,8 +169,8 @@ const Callout = ({ step, onBack, onNext, onRestart, isFirst, isLast }) => {
               onClick={onNext}
               style={{
                 display: 'flex', alignItems: 'center', gap: '3px',
-                fontSize: '11px', fontWeight: 600,
-                color: '#3b82f6', background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+                fontSize: '11px', fontWeight: 600, color: '#3b82f6',
+                background: 'none', border: 'none', padding: 0, cursor: 'pointer',
               }}
             >
               Next <ChevronRight />
@@ -121,32 +179,23 @@ const Callout = ({ step, onBack, onNext, onRestart, isFirst, isLast }) => {
         </div>
       </motion.div>
 
-      {/* Arrow tip pointing down */}
-      <div
-        style={{
-          width: 0,
-          height: 0,
-          borderLeft: '7px solid transparent',
-          borderRight: '7px solid transparent',
-          borderTop: '7px solid white',
-          margin: '0 auto',
-          position: 'relative',
-          zIndex: 1,
-          filter: 'drop-shadow(0 1px 0 #e2e8f0)',
-          marginLeft: step.hotspot.align === 'right' ? 'calc(82% - 7px)' : 'auto',
-        }}
-      />
+      {/* Arrow tip */}
+      <div style={{
+        width: 0, height: 0,
+        borderLeft: '7px solid transparent', borderRight: '7px solid transparent',
+        borderTop: '7px solid white',
+        margin: '0 auto', position: 'relative', zIndex: 1,
+        filter: 'drop-shadow(0 1px 0 #e2e8f0)',
+        marginLeft: step.hotspot.align === 'right' ? 'calc(82% - 7px)' : 'auto',
+      }} />
 
       {/* Anchor dot */}
       <motion.div
         animate={{ scale: [1, 1.25, 1], opacity: [0.7, 1, 0.7] }}
         transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
         style={{
-          width: '10px',
-          height: '10px',
-          borderRadius: '50%',
-          background: '#3b82f6',
-          boxShadow: '0 0 0 3px rgba(59,130,246,0.25)',
+          width: '10px', height: '10px', borderRadius: '50%',
+          background: '#3b82f6', boxShadow: '0 0 0 3px rgba(59,130,246,0.25)',
           margin: '0 auto',
           marginLeft: step.hotspot.align === 'right' ? 'calc(82% - 5px)' : 'auto',
         }}
@@ -154,18 +203,6 @@ const Callout = ({ step, onBack, onNext, onRestart, isFirst, isLast }) => {
     </motion.div>
   );
 };
-
-const ChevronLeft = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-    <path d="M10 12L6 8l4-4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
-const ChevronRight = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-    <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
 
 const CorZenDemo = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -177,6 +214,10 @@ const CorZenDemo = () => {
   const step = steps[currentStep];
   const isFirst = currentStep === 0;
   const isLast = currentStep === steps.length - 1;
+
+  // Dots exclude the intro slide
+  const dotSteps = steps.filter((s) => !s.intro);
+  const dotIndex = currentStep - 1;
 
   return (
     <div className="rounded-xl border border-slate-200 bg-white shadow-2xl overflow-hidden max-w-4xl mx-auto font-sans">
@@ -196,7 +237,7 @@ const CorZenDemo = () => {
       <div className="relative aspect-video bg-slate-100 overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.img
-            key={currentStep}
+            key={`img-${currentStep}`}
             src={step.image}
             alt={step.altText}
             initial={{ opacity: 0 }}
@@ -208,18 +249,22 @@ const CorZenDemo = () => {
         </AnimatePresence>
 
         <AnimatePresence mode="wait">
-          <Callout
-            key={`callout-${currentStep}`}
-            step={step}
-            onBack={goBack}
-            onNext={goNext}
-            onRestart={restart}
-            isFirst={isFirst}
-            isLast={isLast}
-          />
+          {step.intro ? (
+            <IntroCallout key="intro" step={step} onNext={goNext} />
+          ) : (
+            <Callout
+              key={`callout-${currentStep}`}
+              step={step}
+              onBack={goBack}
+              onNext={goNext}
+              onRestart={restart}
+              isFirst={isFirst}
+              isLast={isLast}
+            />
+          )}
         </AnimatePresence>
 
-        {/* Last step has no hotspot — show nav in corner */}
+        {/* Last step nav */}
         {isLast && (
           <motion.div
             initial={{ opacity: 0, y: 8 }}
@@ -252,31 +297,28 @@ const CorZenDemo = () => {
 
       {/* Footer */}
       <div className="px-5 py-4 bg-white flex items-center justify-between gap-4 border-t border-slate-100">
-        {/* Step info */}
         <div className="flex-1 min-w-0">
           <h3 className="font-bold text-slate-900 text-sm">{step.title}</h3>
           <p className="text-sm text-slate-500 mt-0.5 leading-snug">{step.description}</p>
         </div>
 
-        {/* Navigation */}
-        <div className="flex items-center gap-3 shrink-0">
-          {/* Step dots */}
-          <div className="flex items-center gap-1.5">
-            {steps.map((_, i) => (
+        {/* Dots — only for the 4 demo steps, not the intro */}
+        {!step.intro && (
+          <div className="flex items-center gap-1.5 shrink-0">
+            {dotSteps.map((_, i) => (
               <button
                 key={i}
-                onClick={() => setCurrentStep(i)}
+                onClick={() => setCurrentStep(i + 1)}
                 aria-label={`Go to step ${i + 1}`}
                 className={`rounded-full transition-all duration-200 focus:outline-none ${
-                  i === currentStep
+                  i === dotIndex
                     ? 'w-5 h-2 bg-blue-500'
                     : 'w-2 h-2 bg-slate-300 hover:bg-slate-400'
                 }`}
               />
             ))}
           </div>
-
-        </div>
+        )}
       </div>
     </div>
   );
