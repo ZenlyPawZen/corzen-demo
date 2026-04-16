@@ -17,7 +17,7 @@ const steps = [
     altText: 'CorZen weekly focus kanban board showing Build Case Study task in the In Progress column',
     title: 'Step 1',
     description: 'The wrench icon indicates that this task can be completed for you. Click anywhere on the card to see more details.',
-    hotspot: { top: '45%', left: '79%', align: 'right' },
+    hotspot: { top: '65%', left: '65%', align: 'center' },
   },
   {
     slug: 'agents/build-case-study/detail',
@@ -195,10 +195,10 @@ const Callout = ({ step, onBack, onNext, onRestart, isFirst, isLast }) => {
         animate={{ scale: [1, 1.25, 1], opacity: [0.7, 1, 0.7] }}
         transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
         style={{
-          width: '10px', height: '10px', borderRadius: '50%',
-          background: '#3b82f6', boxShadow: '0 0 0 3px rgba(59,130,246,0.25)',
+          width: '18px', height: '18px', borderRadius: '50%',
+          background: '#3b82f6', boxShadow: '0 0 0 5px rgba(59,130,246,0.25)',
           margin: '0 auto',
-          marginLeft: step.hotspot.align === 'right' ? 'calc(82% - 5px)' : 'auto',
+          marginLeft: step.hotspot.align === 'right' ? 'calc(82% - 9px)' : 'auto',
         }}
       />
     </motion.div>
