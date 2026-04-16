@@ -1,9 +1,8 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react()],
   optimizeDeps: {
     include: ['framer-motion'],
   },
@@ -12,8 +11,7 @@ export default defineConfig({
       output: {
         entryFileNames: 'corzen-demo.js',
         chunkFileNames: 'corzen-demo-[name].js',
-        assetFileNames: (info) =>
-          info.name?.endsWith('.css') ? 'corzen-demo.css' : 'assets/[name]-[hash][extname]',
+        assetFileNames: 'assets/[name]-[hash][extname]',
       },
     },
   },
