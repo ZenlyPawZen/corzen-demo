@@ -17,7 +17,7 @@ const steps = [
     altText: 'CorZen weekly focus kanban board showing Build Case Study task in the In Progress column',
     title: 'Step 1',
     description: 'The wrench icon indicates that this task can be completed for you. Click anywhere on the card to see more details.',
-    hotspot: { top: '15%', left: '68%', align: 'center', cardWidth: '300px' },
+    hotspot: { top: '10%', left: '65%', align: 'center', cardWidth: '300px' },
   },
   {
     slug: 'agents/build-case-study/detail',
@@ -32,7 +32,7 @@ const steps = [
     image: '/images/step3.png',
     altText: 'Build Case Study agent running autonomously with progress bar and working status indicator',
     title: 'Step 3',
-    description: "The agent gathers information that you provided during intake and generates the case study. You no longer need to find 'the perfect prompt.'",
+    description: "The agent gathers information that you provided during intake and generates the case study. \n\nYou no longer need to find 'the perfect prompt.'",
     hotspot: { top: '40%', left: '50%', align: 'center', cardWidth: '350px' },
   },
   {
